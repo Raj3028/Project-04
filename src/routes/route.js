@@ -1,14 +1,14 @@
 //=====================Importing Module and Packages=====================//
 const express = require('express');
 const router = express.Router();
+const createURL = require('../Controller/urlController')
 
 
 
 
 
-
-//===================== User Registration(Post API) =====================//
-router.post("/register", createUser)
+//===================== Create (Post API) =====================//
+router.post("/url/shorten", createURL)
 
 
 
