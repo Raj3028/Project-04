@@ -4,11 +4,10 @@ const router = express.Router();
 const { createURL, redirectURL } = require('../Controller/urlController')
 
 
-
-//===================== Create (Post API) =====================//
+//===================== Create Shorten URL From Long URL(Post API) =====================//
 router.post("/url/shorten", createURL)
 
-//===================== Create (Get API) =====================//
+//===================== Create URL data from DB(Get API) =====================//
 router.get("/:urlCode", redirectURL)
 
 

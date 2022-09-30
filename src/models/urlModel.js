@@ -1,6 +1,8 @@
+//=====================Importing Mongoose Package=====================//
 const mongoose = require('mongoose')
 
 
+//=====================Creating URL's Schema=====================//
 const urlSchema = new mongoose.Schema({
     urlCode: {
         type: String,
@@ -22,4 +24,5 @@ const urlSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
+//=====================Module Export=====================//
 module.exports = mongoose.model('url', urlSchema)
