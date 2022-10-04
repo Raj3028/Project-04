@@ -32,8 +32,8 @@ app.use('/', route)
 //===================== It will Handle error When You input Wrong Route =====================//
 app.use(function (req, res) {
     var err = new Error("Not Found.")
-    err.status = 404
-    return res.status(404).send({ status: "404", msg: "Path not Found." })
+    err.status = 400
+    return res.status(400).send({ status: "400", msg: "Path not Found." })
 })
 
 

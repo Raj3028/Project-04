@@ -2,6 +2,7 @@
 const urlModel = require('../models/urlModel')
 const shortid = require('shortid')
 const axios = require('axios')
+const { GET_ASYNC, SET_ASYNC } = require('../Redis/redis')
 
 
 //<<<=================================All functions are for Validation===================================>>>//
@@ -20,7 +21,7 @@ const checkString = function (value) {
 
 //<<<=====================This function is used for Create Shorten URL=====================>>>//
 
-const createURL = async (req, res) => {
+const urlShorter = async (req, res) => {
     try {
 
         let originalURL = req.body
@@ -48,7 +49,7 @@ const createURL = async (req, res) => {
         //=====================Fetching URL Data from DB and Checking Duplicate urlCode & shortUrl are Present or Not=====================//
         let isPresent = await urlModel.findOne({ longUrl: longUrl }).select({ _id: 0, longUrl: 1, shortUrl: 1, urlCode: 1 })
         if (isPresent) {
-            return res.status(200).send({ status: true, message: 'Short URL is already Generated Before.', data: isPresent })
+            return res.status(200).send({ status: true, message: 'Short URL is already Generated with requested URL.', data: isPresent })
         }
 
         //x===================== Create Shorten URL =====================x//
@@ -74,6 +75,8 @@ const createURL = async (req, res) => {
     }
 }
 
+
+
 //<<<=====================This function is used Fetch the URL Data from DB=====================>>>//
 
 const redirectURL = async (req, res) => {
@@ -81,13 +84,24 @@ const redirectURL = async (req, res) => {
 
         let urlCode = req.params.urlCode
 
-        //x===================== Fetch the URL Data from DB =====================x//
-        let urlDetails = await urlModel.findOne({ urlCode: urlCode })
-        if (!urlDetails) return res.status(400).send({ status: false, message: "URL not found" })
+        let cacheURLData = await GET_ASYNC(`${urlCode}`)
 
-        //x===================== Redirect the response to the URL =====================x//
-        res.status(302).redirect(urlDetails.longUrl)
+        cacheURLData = JSON.parse(cacheURLData)
+        
+        if (cacheURLData) {
+            return res.status(302).redirect(cacheURLData.longUrl)
+        } else {
 
+            //x===================== Fetch the URL Data from DB =====================x//
+            let urlDetails = await urlModel.findOne({ urlCode: urlCode }).select({ _id: 0, longUrl: 1 })
+            if (!urlDetails) { return res.status(400).send({ status: false, message: "URL not found" }) }
+
+
+            await SET_ASYNC(`${urlCode}`, 24 * 60 * 60, JSON.stringify(urlDetails))
+
+            //x===================== Redirect the response to the URL =====================x//
+            res.status(302).redirect(urlDetails.longUrl)
+        }
     } catch (error) {
 
         res.status(500).send({ status: 'error', error: error.message })
@@ -98,4 +112,4 @@ const redirectURL = async (req, res) => {
 
 
 //=====================Module Export=====================//
-module.exports = { createURL, redirectURL }
+module.exports = { urlShorter, redirectURL }
