@@ -10,7 +10,7 @@ app.use(express.json());
 mongoose.connect("mongodb+srv://raj_3028:kWaM507ps0Icsdg0@cluster0.pw23ckf.mongodb.net/group16Database", {
     useNewUrlParser: true
 })
-    .then(() => console.log("MongoDb is Connected."))
+    .then(() => console.log("MongoDb is Connected.."))
     .catch(error => console.log(error))
 
 //===================== Global Middleware for Console the Date, Time, IP Address and Print the perticular API Route Name when you will hit that API =====================//
