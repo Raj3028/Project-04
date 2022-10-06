@@ -87,21 +87,14 @@ const urlShorter = async (req, res) => {
 
         //x===================== Create Shorten URL =====================x//
         let baseURl = "http://localhost:3000/"
-        let urlCode = shortid.generate().toLowerCase()
-        let shortURL = baseURl + urlCode
-
-        //x===================== Create Object For response =====================x//
-        let object = {
-            longUrl: longUrl,
-            shortUrl: shortURL,
-            urlCode: urlCode
-        }
+        originalURL.urlCode = shortid.generate().toLowerCase()
+        originalURL.shortUrl = baseURl + originalURL.urlCode
 
         //x===================== Creating URL Document inside DB =====================x//
-        let createURL = await urlModel.create(object)
+        let createURL = await urlModel.create(originalURL)
 
         //===================== Response =====================//
-        res.status(201).send({ status: true, data: object })
+        res.status(201).send({ status: true, data: originalURL })
 
     } catch (error) {
 
