@@ -2,7 +2,7 @@
   "name": "scalable_url_shortner_project",
   "version": "1.0.0",
   "description": "Scalable URL Shortner (Project-04)",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/index.js"
