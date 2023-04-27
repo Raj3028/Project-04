@@ -1,7 +1,7 @@
 //=====================Importing Module and Packages=====================//
 const express = require('express');
 const router = express.Router();
-const { urlShorter, redirectURL } = require('../Controller/urlController')
+const { urlShorter, redirectURL } = require('../Controller/urlController.js')
 
 
 //===================== Create Shorten URL From Long URL(Post API) =====================//
