@@ -1,8 +1,8 @@
 //=====================Importing Module and Packages=====================//
-const urlModel = require('../models/urlModel')
+const urlModel = require('../models/urlModel.js')
 const shortid = require('shortid')
 const axios = require('axios')
-const { GET_ASYNC, SET_ASYNC } = require('../Redis/redis')
+const { GET_ASYNC, SET_ASYNC } = require('../Redis/redis.js')
 
 
 //<<<================================= All functions are for Validation ===================================>>>//
