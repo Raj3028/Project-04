@@ -4,8 +4,10 @@ const route = require('./src/routes/route.js');
 const { default: mongoose } = require('mongoose');
 const moment = require('moment');
 const app = express();
+const cors = require('cors')
 
 app.use(express.json());
+app.use(cors())
 
 mongoose.connect("mongodb+srv://raj_3028:kWaM507ps0Icsdg0@cluster0.pw23ckf.mongodb.net/group16Database", {
     useNewUrlParser: true
